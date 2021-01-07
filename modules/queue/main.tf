@@ -301,3 +301,14 @@ resource "google_monitoring_alert_policy" "dataflow_freshness" {
 
   notification_channels = var.dataflow_freshness_alert_notification_channels
 }
+
+resource "google_cloud_scheduler_job" "job" {
+  for_each = {for job_config in var.taskhawk-scheduler_jobs:  job_config.name => job_config}
+  name        = each.key
+  description = each.value.description
+  schedule    = each.value.schedule
+
+  pubsub_target {
+    topic_name = google_pubsub_topic.topic.id
+  }
+}

@@ -81,3 +81,17 @@ variable "dataflow_freshness_alert_notification_channels" {
   type        = list(string)
   default     = []
 }
+
+variable "taskhawk_scheduler_job_config" {
+type = object({
+    name = string
+    description = string
+    schedule = string
+  })
+}
+
+variable "taskhawk_scheduler_jobs" {
+  description = "taskhawk jobs to be run on scheduler"
+  type        = list(taskhawk_scheduler_job_config)
+  default     = []
+}
